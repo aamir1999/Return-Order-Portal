@@ -28,10 +28,13 @@ export class LoginComponent implements OnInit {
     this.loginservice.VerifyAndLogIn(user).subscribe(
       (res) => {
         localStorage.setItem('token', res.token);
+        this.loginservice.setMessage(cred.username);
         this.router.navigate(['process-request']);
       },
 
-      (error) => {}
+      (error) => {
+        
+      }
     );
   }
 }
