@@ -4,6 +4,8 @@ import { ReqserviceService } from './reqservice.service';
 import { Router } from '@angular/router';
 import { ProcRequest } from './ProcRequest';
 import { ProcResponse } from './ProcResponse';
+import { LoginserviceService } from '../login/loginservice.service';
+import {NgToastService} from 'ng-angular-popup';
 
 @Component({
   selector: 'app-process-request',
@@ -11,24 +13,45 @@ import { ProcResponse } from './ProcResponse';
   styleUrls: ['./process-request.component.css'],
 })
 export class ProcessRequestComponent implements OnInit {
-  alert:boolean=false
+  alert: boolean = false;
   requestData: any;
   balanceamt: any;
-  mobilePattern = "^((\\+91-?)|0)?[0-9]{10}$";
-  creditPattern = "^4[0-9]{12}(?:[0-9]{3})?$";
+  procrequestArray: any;
+  procresponseArray: any;
+  displayUsername: any;
+  mobilePattern = '^((\\+91-?)|0)?[0-9]{10}$';
+  //change
+  // creditPattern = "^4[0-9]{12}(?:[0-9]{3})?$";
+  creditPattern = '^([0-9]{15}|[0-9]{16})(?:[0-9]{3})?$';
   requestForm = new FormGroup({
-    UserName: new FormControl('', Validators.required),
-    ContactNumber: new FormControl('', [Validators.required, Validators.pattern(this.mobilePattern)]),
-    CreditCardNumber: new FormControl('', [Validators.required, Validators.pattern(this.creditPattern)]),
+    //change
+    //  UserName: new FormControl('', Validators.required),
+    ContactNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern(this.mobilePattern),
+    ]),
+    CreditCardNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern(this.creditPattern),
+    ]),
     ComponentType: new FormControl('Integral', Validators.required),
     ComponentName: new FormControl('Repair', Validators.required),
     Quantity: new FormControl('', Validators.required),
     PriorityRequest: new FormControl('Y', Validators.required),
   });
 
-  constructor(private service: ReqserviceService, private route: Router) {}
+  constructor(
+    private service: ReqserviceService,
+    private route: Router,
+    private logins_service: LoginserviceService,
+    private toast : NgToastService,
+  ) {
+    this.displayUsername = logins_service.getMessage();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.displayUsername = this.logins_service.getMessage();
+  }
 
   /*
      let cred = this.loginForm.value;
@@ -47,6 +70,9 @@ export class ProcessRequestComponent implements OnInit {
 
   onSubmitrequestForm() {
     let procreq = this.requestForm.value;
+    // change
+    procreq.UserName = this.displayUsername;
+
     let procmodel = new ProcRequest(
       procreq.UserName,
       procreq.ContactNumber,
@@ -61,10 +87,12 @@ export class ProcessRequestComponent implements OnInit {
       (res) => {
         this.requestData = res;
         console.log(res);
+        this.toast.success({detail: "Success Message", summary:"Order Request Added", duration:5000})
         this.requestForm.reset();
       },
       (error) => {
         if (error.status == 401) {
+          this.toast.error({detail: "Error Message", summary:"Order Request Not Added, Try again!!", duration:5000})
           this.route.navigate(['login']);
         }
       }
@@ -101,8 +129,37 @@ userName: "u1"
     this.service.PaymentConfirm(respmodel).subscribe(
       (res) => {
         console.log(res);
+        this.toast.success({detail: "Success Message", summary:"Payment Successfull, You Can Check the Remaining Balance!", duration:5000})
         this.balanceamt = res;
-        this.alert=true
+        this.alert = true;
+      },
+      (error) => {
+        if (error.status == 401) {
+          this.toast.error({detail: "Error Message", summary:"Payment Failed, Try again!!", duration:5000})
+          this.route.navigate(['login']);
+        }
+      }
+    );
+  }
+
+  closeAlert() {
+    this.alert = false;
+  }
+
+  onLogout() {
+    localStorage.removeItem('token');
+    this.toast.success({detail: "Success Message", summary:"Logout is Successfull", duration:5000})
+    this.route.navigate(['/login']);
+  }
+
+  ExistingRequests() {
+    // this.logins_service.getMessage();
+    let uname = this.logins_service.getMessage();
+    console.log(uname);
+    this.service.PreviousRequests(uname).subscribe(
+      (res) => {
+        console.log(res);
+        this.procrequestArray = res;
       },
       (error) => {
         if (error.status == 401) {
@@ -110,15 +167,22 @@ userName: "u1"
         }
       }
     );
-
   }
-
-  closeAlert(){
-    this.alert=false
-  }
-
-  onLogout() {
-    localStorage.removeItem('token');
-    this.route.navigate(['/login']);
+  ExistingResponses() {
+    // let uname = this.req.UserName;
+    // let uname = 'u1';
+    let uname = this.logins_service.getMessage();
+    console.log(uname);
+    this.service.PreviousResponses(uname).subscribe(
+      (res) => {
+        console.log(res);
+        this.procresponseArray = res;
+      },
+      (error) => {
+        if (error.status == 401) {
+          this.route.navigate(['login']);
+        }
+      }
+    );
   }
 }

@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ProcessRequestComponent } from './process-request/process-request.component';
 import { ConfirmResponseComponent } from './confirm-response/confirm-response.component';
+import { NgToastModule } from 'ng-angular-popup';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ConfirmResponseComponent } from './confirm-response/confirm-response.co
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    NgToastModule,
   ],
   providers: [
     {

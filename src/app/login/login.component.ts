@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Route, Router } from '@angular/router';
 import { LoginserviceService } from './loginservice.service';
 import { User } from './User';
+import {NgToastService} from 'ng-angular-popup';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
   error: any;
   constructor(
     private loginservice: LoginserviceService,
-    private router: Router
+    private router: Router,
+    private toast : NgToastService
   ) {}
 
   LoginFormgrp = new FormGroup({
@@ -27,11 +29,15 @@ export class LoginComponent implements OnInit {
     let user = new User(0, cred.username, cred.password);
     this.loginservice.VerifyAndLogIn(user).subscribe(
       (res) => {
+        this.toast.success({detail: "Success Message", summary:"Login is Successfull", duration:5000})
         localStorage.setItem('token', res.token);
+        this.loginservice.setMessage(cred.username);
         this.router.navigate(['process-request']);
       },
 
-      (error) => {}
+      err => {
+        this.toast.error({detail: "Error Message", summary:"Login Failed, Try again!", duration:5000})
+      }
     );
   }
 }

@@ -15,147 +15,169 @@
         public bool IsPriorityRequest { get; set; }
         [Required]
         public DateTime OrderPlacedDate { get; set; }
-
+displayUsername
 -->
 <nav class="navbar navbar-dark bg-dark">
   <a class="navbar-brand text-white">Return Order Management</a>
-  <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">Logout</button>
+  <a class="navbar-brand text-white">Welcome {{ displayUsername }}</a>
+  <button class="btn btn-danger my-2 my-sm-0" (click)="onLogout()">
+    Logout
+  </button>
 </nav>
 <div class="container-fluid mt-3">
   <div class="row">
     <div class="col-sm-12">
       <div class="card">
-        <div class="card-header bg-info"><h4 class="text-white">Please Provide Details For Return Order</h4></div>
+        <div class="card-header bg-info">
+          <h4 class="text-white">Please Provide Details For Return Order</h4>
+        </div>
         <div class="card-body">
           <div class="row">
             <div class="col-sm-12">
-        <form [formGroup]="requestForm" (ngSubmit)="onSubmitrequestForm()">
+              <form
+                [formGroup]="requestForm"
+                (ngSubmit)="onSubmitrequestForm()"
+              >
+                <div
+                  *ngIf="alert"
+                  class="alert alert-success alert-dismissible fade show"
+                  role="alert"
+                >
+                  <strong>Success</strong> Your order has been placed.
+                  <button
+                    (click)="closeAlert()"
+                    type="button"
+                    class="close"
+                    data-dismiss="alert"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
 
-     <div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
-      <strong>Success</strong> Your order has been placed.
-      <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+                <div class="row">
+                  <div class="col-6 pr-5">
+                    <!--div class="form-group">
+                      <label class="form-label" for="UserName"
+                        >Username :</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="UserName"
+                        placeholder="UserName"
+                        formControlName="UserName"
+                      />
+                    </div-->
+
+                    <div class="form-group">
+                      <label class="form-label" for="ContactNumber"
+                        >ContactNumber :</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="ContactNumber"
+                        placeholder=""
+                        formControlName="ContactNumber"
+                      />
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="CreditCardNumber"
+                        >CreditCardNumber :</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="CreditCardNumber"
+                        placeholder=""
+                        formControlName="CreditCardNumber"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-6 pr-5">
+                    <div class="form-group">
+                      <label class="form-label" for="comptype">
+                        ComponentType :</label
+                      >
+                      <select
+                        name="comptype"
+                        id="comptype"
+                        class="form-control"
+                        formControlName="ComponentType"
+                      >
+                        <option value="Integral">Integral</option>
+                        <option value="Accessory">Accessory</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="form-label" for="ComponentName">
+                        ComponentName :</label
+                      >
+                      <select
+                        name="ComponentName"
+                        id="ComponentName"
+                        class="form-control"
+                        formControlName="ComponentName"
+                      >
+                        <option value="Repair">Repair</option>
+                        <option value="Replacement">Replacement</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-6 pr-5">
+                    <div class="form-group">
+                      <label class="form-label" for="Quantity"
+                        >Quantity :</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="Quantity"
+                        placeholder=""
+                        formControlName="Quantity"
+                      />
+                    </div>
+                  </div>
+
+                    <div class="col-6 pr-5">
+                    <div class="form-group">
+                      <label class="form-label" for="PriorityRequest">
+                        PriorityRequest :</label
+                      >
+                      <select
+                        name="PriorityRequest"
+                        id="PriorityRequest"
+                        class="form-control"
+                        formControlName="PriorityRequest"
+                      >
+                        <option value="Y">YES</option>
+                        <option value="N">NO</option>
+                      </select>
+                    </div>
+                  </div>
+                  </div>
+                
+                 
+                <button
+                  [disabled]="!requestForm.valid"
+                  class="btn btn-info float-center mt-4 mb-4"
+                  type="submit"
+                >
+                  Add Request
+                </button>
+                  
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="row">
-
-      <div class="col-6 pr-5">
-
-        <div class="form-group">
-          <label class="form-label" for="UserName">Username :</label>
-          <input
-            type="text"
-            class="form-control"
-            id="UserName"
-            placeholder="UserName"
-            formControlName="UserName"
-          />
-          
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="ContactNumber">ContactNumber :</label>
-          <input
-            type="number"
-            class="form-control"
-            id="ContactNumber"
-            placeholder=""
-            formControlName="ContactNumber"
-          />
-        </div>
-
-      </div>
-        <div class="col-6 pr-5">
-
-        <div class="form-group">
-          <label class="form-label" for="CreditCardNumber">CreditCardNumber :</label>
-          <input
-            type="number"
-            class="form-control"
-            id="CreditCardNumber"
-            placeholder=""
-            formControlName="CreditCardNumber"
-          />
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="comptype"> ComponentType :</label>
-          <select
-            name="comptype"
-            id="comptype"
-            class="form-control"
-            formControlName="ComponentType"
-          >
-            <option value="Integral">Integral</option>
-            <option value="Accessory">Accessory</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-6 pr-5">
-        <div class="form-group">
-          <label class="form-label" for="ComponentName"> ComponentName :</label>
-          <select
-            name="ComponentName"
-            id="ComponentName"
-            class="form-control"
-            formControlName="ComponentName"
-          >
-            <option value="Repair">Repair</option>
-            <option value="Replacement">Replacement</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="col-6 pr-5">
-        <div class="form-group">
-          <label class="form-label" for="Quantity">Quantity :</label>
-          <input
-            type="number"
-            class="form-control"
-            id="Quantity"
-            placeholder=""
-            formControlName="Quantity"
-          />
-        </div>
-      </div>
-
-      <div class="col-6 pr-5">
-      <div class="form-group">
-        <label class="form-label" for="PriorityRequest">
-          PriorityRequest :</label
-        >
-        <select
-          name="PriorityRequest"
-          id="PriorityRequest"
-          class="form-control"
-          formControlName="PriorityRequest"
-        >
-          <option value="Y">YES</option>
-          <option value="N">NO</option>
-        </select>
-      </div>
-    </div>
-    </div>
-
-    <button
-      [disabled]="!requestForm.valid"
-      class="btn btn-info float-right mt-3 mb-3"
-      type="submit"
-    >
-      Add Request
-    </button>
-  </form>
-</div>
-</div>
   </div>
 </div>
-</div>
-  </div>
-</div>
-
-
 
 <!--
  [Required]
@@ -190,87 +212,171 @@ userName: "u1"
 
  -->
 
- <div class="container">
+<div class="container">
   <div class="row mt-3">
-      <div class="col-sm-12 mb-3 mt-2">
-        <div class="card ">
-          <div class="card-header bg-info">
-            <h4 class="text-white">View Return Order Details</h4>
+    <div class="col-sm-12 mb-3 mt-2">
+      <div class="card">
+        <div class="card-header bg-info">
+          <h4 class="text-white">View Return Order Details</h4>
         </div>
         <div class="card-body">
-
           <div class="row mt-5" *ngIf="requestData">
             <div class="col-sm-12">
-                <div class="card mx-auto">
-                    <div class="card-header">
-                        <b>Process Response</b>
-                    </div>
-                    <div class="card-body">
-                        <table style="width:80%" >
-                            <tr>
-                                <th>Request ID</th>
-                                <td>{{requestData.requestId}}</td>
-                            </tr>
-                            <tr>
-                                <th>UserName</th>
-                                <td>{{requestData.userName}}</td>
-                            </tr>
-                            <tr>
-                                <th>Processing charge</th>
-                                <td>{{requestData.processingCharge}}</td>
-                               
-                            </tr>
-                            <tr>
-                                <th>Package & Delivey Charge</th>
-                                <td>{{requestData.packagingAndDeliveryCharge}}</td>
-                                
-                            </tr>
-                            <tr>
-                                <th>Date Of Delivery</th>
-                                <td>{{requestData.dateOfDelivery | date}}</td>
-                                
-                            </tr>
-                            <tr>
-                                <th>Total Charge</th>
-                                <td>{{requestData.totalCharge}}</td>
-                              
-                            </tr>
-                            <tr>
-                                <th>CreditCardNo</th>
-                                <td>{{requestData.creditCardNo}}</td>
-                            </tr>
-                            
-                          </table>
-                    </div>
-                  </div>
-                  <button type="button" (click)="payment()" class="btn btn-info float-right mt-3 mb-3">Confirm
-        </button>
-
-
-
-        </div>
-        </div>
-      </div>
-  </div>
-</div>
-
-<div class="card-body">
-
-  <div class="row mt-5" *ngIf="balanceamt">
-    <div class="col-sm-12">
-        <div class="card mx-auto">
-            <div class="card-header">
-                <b>Remaining Balance Amount</b>
-            </div>
-            <div class="card-body">
-                <table style="width:80%" >
+              <div class="card mx-auto">
+                <div class="card-header">
+                  <b>Process Response</b>
+                </div>
+                <div class="card-body">
+                  <table style="width: 80%">
                     <tr>
-                        <th>Balance Amount</th>
-                        <td>{{ balanceamt }}</td>
+                      <th>Request ID</th>
+                      <td>{{ requestData.requestId }}</td>
+                    </tr>
+                    <tr>
+                      <th>UserName</th>
+                      <td>{{ requestData.userName }}</td>
+                    </tr>
+                    <tr>
+                      <th>Processing charge</th>
+                      <td>{{ requestData.processingCharge }}</td>
+                    </tr>
+                    <tr>
+                      <th>Package & Delivey Charge</th>
+                      <td>{{ requestData.packagingAndDeliveryCharge }}</td>
+                    </tr>
+                    <tr>
+                      <th>Date Of Delivery</th>
+                      <td>{{ requestData.dateOfDelivery | date }}</td>
+                    </tr>
+                    <tr>
+                      <th>Total Charge</th>
+                      <td>{{ requestData.totalCharge }}</td>
+                    </tr>
+                    <tr>
+                      <th>CreditCardNo</th>
+                      <td>{{ requestData.creditCardNo }}</td>
                     </tr>
                   </table>
+                </div>
+              </div>
+              <button
+                type="button"
+                (click)="payment()"
+                class="btn btn-info float-right mt-3 mb-3"
+              >
+                Confirm
+              </button>
             </div>
           </div>
-</div>
-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row mt-5" *ngIf="balanceamt">
+        <div class="col-sm-12">
+          <div class="card mx-auto">
+            <div class="card-header">
+              <b>Remaining Balance Amount</b>
+            </div>
+            <div class="card-body">
+              <table style="width: 80%">
+                <tr>
+                  <th>Balance Amount</th>
+                  <td>{{ balanceamt }}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" (click)="ExistingRequests()" class="btn btn-info md-5 md-5" style="margin-top: 10px;margin-bottom:10px;">View Process Requests</button>
+    <div class="container" *ngIf="procrequestArray">
+      <h2>Process Requests</h2>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>Request Id</th>
+            <th>CreditCardNo</th>
+            <th>componentType</th>
+            <th>componentName</th>
+            <th>quantity</th>
+            <th>isPriorityRequest</th>
+            <th>orderPlacedDate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let req of procrequestArray">
+            <td>
+              <span>{{ req.idReq }}</span>
+            </td>
+            <td>
+              <span>{{ req.creditCardNumber }}</span>
+            </td>
+            <td>
+              <span>{{ req.componentType }}</span>
+            </td>
+            <td>
+              <span>{{ req.componentName }}</span>
+            </td>
+            <td>
+              <span>{{ req.quantity }}</span>
+            </td>
+            <td>
+              <span>{{ req.isPriorityRequest }}</span>
+            </td>
+            <td>
+              <span>{{ req.orderPlacedDate | date }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <button type="button" (click)="ExistingResponses()" class="btn btn-info md-5 md-5" style="margin-top: 10px;margin-bottom:10px;">
+      View Process Responses
+    </button>
+    <div class="container" *ngIf="procresponseArray">
+      <h2>Process Responses</h2>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Request ID</th>
+            <th>Processing charge</th>
+            <th>Package Delivery charge</th>
+            <th>date of delivery</th>
+            <th>Total charge</th>
+            <th>Credit card No</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let resp of procresponseArray">
+            <td>
+              <span>{{ resp.id_res }}</span>
+            </td>
+            <td>
+              <span>{{ resp.requestId }}</span>
+            </td>
+            <td>
+              <span>{{ resp.processingCharge }}</span>
+            </td>
+            <td>
+              <span>{{ resp.packagingAndDeliveryCharge }}</span>
+            </td>
+            <td>
+              <span>{{ resp.dateOfDelivery | date }}</span>
+            </td>
+            <td>
+              <span>{{ resp.totalCharge }}</span>
+            </td>
+            <td>
+              <span>{{ resp.creditCardNo }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
