@@ -1,0 +1,28 @@
+/* You can add global styles to this file, and also import other style files */
+
+
+.form-control:focus {
+    box-shadow: none;
+  }
+body{
+  font-family: 'Open Sans', sans-serif;
+}
+
+input.ng-invalid.ng-touched
+{
+  box-shadow:inset 0 0 5px 1px rgb(255, 110, 110);
+    border: 1px solid red;
+    
+}
+input.ng-valid.ng-touched
+{
+  box-shadow:inset 0 0 5px 1px rgb(162, 255, 159);
+    border: 1px solid green;
+  
+    
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

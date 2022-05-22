@@ -1,0 +1,82 @@
+<div
+  style="
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    overflow: hidden;
+  "
+>
+
+<div
+    style="
+      width: 50vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 90vh;
+    "
+  >
+
+<form [formGroup]="LoginFormgrp" (ngSubmit)="clickLogin()">
+  <div class="mb-5 mt-3 text-center">
+    <h1><b>Login</b></h1>
+  </div>
+
+  <div class="form-outline mb-4">
+    <label class="form-label" for="usernametest">Username</label>
+    <input
+      type="text"
+      id="username"
+      class="form-control"
+      formControlName="username"
+      placeholder="Username"
+    />
+  </div>
+
+  <div class="form-outline mb-4">
+    <label class="form-label" for="passwordtest">Password</label>
+    <input
+      type="password"
+      formControlName="password"
+      id="password"
+      class="form-control"
+      placeholder="Password"
+    />
+  </div>
+
+  <div>
+    <b class="text-danger">{{ error }}</b>
+  </div>
+
+  <div class="text-center pt-1 mb-5 pb-1">
+    <button
+      class="btn btn-primary btn-block fa-lg mb-3"
+      type="submit"
+      [disabled]="!LoginFormgrp.valid"
+    >
+      Login
+    </button>
+  </div>
+</form>
+</div>
+
+<div style="width: 50%; height: 90vh">
+  <img
+    src="https://blog.shift4shop.com/hubfs/ThinkstockPhotos-636072098.png"
+    alt="Login image"
+    style="
+      object-fit: cover;
+      object-position: left;
+      width: 70vw;
+      height: 90vh;
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+    "
+  />
+</div>
+
+</div>
