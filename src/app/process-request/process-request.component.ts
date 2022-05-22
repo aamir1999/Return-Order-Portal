@@ -119,6 +119,6 @@ userName: "u1"
 
   onLogout() {
     localStorage.removeItem('token');
-    this.route.navigate(['/user/login']);
+    this.route.navigate(['/login']);
   }
 }
