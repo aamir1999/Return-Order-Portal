@@ -43,4 +43,18 @@ export class ReqserviceService {
   PaymentConfirm(resp: ProcResponse): Observable<any> {
     return this.http.post(this.Url + '/Comp', resp);
   }
+
+  PreviousRequests(uname: string): Observable<any> {
+    return this.http.get(
+      'http://componentbackendservice.azurewebsites.net/api/Comp/GetProcessRequests?username=' +
+        uname
+    );
+    // http://componentbackendservice.azurewebsites.net/api/Comp/GetProcessRequests?//username=u1
+  }
+  PreviousResponses(uname: string): Observable<any> {
+    return this.http.get(
+      'http://componentbackendservice.azurewebsites.net/api/Comp/GetProcessResponses?username=' +
+        uname
+    );
+  }
 }

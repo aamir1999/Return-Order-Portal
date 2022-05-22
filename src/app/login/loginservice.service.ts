@@ -8,10 +8,17 @@ import { User } from './User';
   providedIn: 'root',
 })
 export class LoginserviceService {
+  username: string = '';
   endpoint = environment.AuthURL;
   constructor(private http: HttpClient) {}
 
   VerifyAndLogIn(cred: User): Observable<any> {
     return this.http.post(this.endpoint + '/Auth', cred);
+  }
+  setMessage(data: string) {
+    this.username = data;
+  }
+  getMessage() {
+    return this.username;
   }
 }
